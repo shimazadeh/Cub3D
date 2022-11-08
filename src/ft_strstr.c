@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aguillar <aguillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/20 16:58:52 by aguillar          #+#    #+#             */
-/*   Updated: 2022/11/07 14:47:16 by aguillar         ###   ########.fr       */
+/*   Created: 2021/11/24 13:53:50 by aguillar          #+#    #+#             */
+/*   Updated: 2022/11/07 16:25:18 by aguillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	main(int ac, char **av)
+char	*ft_strstr(const char *haystack, const char *needle)
 {
-	t_cub	cub[1];
+	size_t	i;
+	size_t	j;
 
-	init_cub_struct(cub);
-	cub->mlx_ptr = mlx_init();
-	if (!cub->mlx_ptr)
+	i = 0;
+	j = 0;
+	if (!needle[i])
+		return ((char *)haystack);
+	while (haystack[i])
 	{
-		ft_putstr_fd("Error\nMlx could not be initialized!\n", 2);
-		cub->ret = 1;
+		while (haystack[i + j] == needle[j])
+		{
+			if (needle[j + 1] == '\0')
+				return ((char *)&haystack[i]);
+			j++;
+		}
+		j = 0;
+		i++;
 	}
-	else if (!arg_check(ac, av, &(cub->fd)))
-		cub->ret = 1;
-	else if (!parsing(cub->fd, cub))
-		cub->ret = 1;
-	else
-		cub3D(cub);
-	ft_exit(cub);
 	return (0);
 }

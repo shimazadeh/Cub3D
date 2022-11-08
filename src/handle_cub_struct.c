@@ -6,7 +6,7 @@
 /*   By: aguillar <aguillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 18:53:32 by aguillar          #+#    #+#             */
-/*   Updated: 2022/10/26 14:39:49 by aguillar         ###   ########.fr       */
+/*   Updated: 2022/11/08 14:18:36 by aguillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	init_cub_struct(t_cub *cub)
 {
+	cub->ret = 0;
+	cub->fd = 0;
 	cub->mlx_ptr = NULL;
 	cub->win_ptr = NULL;
 	cub->no = NULL;
@@ -23,6 +25,17 @@ void	init_cub_struct(t_cub *cub)
 	cub->fl = 0;
 	cub->ce = 0;
 	cub->map = NULL;
+	cub->height = 1080;
+	cub->width = 1920;
+	cub->posX = 0;
+	cub->posY = 0;
+	cub->base_angle = 0;
+	cub->cur_angle = 0;
+	cub->hitX = 0;
+	cub->hitY = 0;
+	cub->pwdist = 0;
+	cub->prev_text = 0;
+	cub->text_offset = 0;
 }
 
 void	destroy_cub_struct(t_cub *cub)

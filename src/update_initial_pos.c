@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   update_initial_pos.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aguillar <aguillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/20 16:58:52 by aguillar          #+#    #+#             */
-/*   Updated: 2022/11/07 14:47:16 by aguillar         ###   ########.fr       */
+/*   Created: 2022/11/07 15:16:16 by aguillar          #+#    #+#             */
+/*   Updated: 2022/11/08 14:38:51 by aguillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	main(int ac, char **av)
+void	update_initial_pos(int i, int j, char dir, t_cub *cub)
 {
-	t_cub	cub[1];
-
-	init_cub_struct(cub);
-	cub->mlx_ptr = mlx_init();
-	if (!cub->mlx_ptr)
-	{
-		ft_putstr_fd("Error\nMlx could not be initialized!\n", 2);
-		cub->ret = 1;
-	}
-	else if (!arg_check(ac, av, &(cub->fd)))
-		cub->ret = 1;
-	else if (!parsing(cub->fd, cub))
-		cub->ret = 1;
-	else
-		cub3D(cub);
-	ft_exit(cub);
-	return (0);
+	cub->posY = i;
+	cub->posX = j;
+	if (dir == 'N')
+		cub->base_angle = 90 - 33;
+	else if (dir == 'S')
+		cub->base_angle = 270 - 33; 
+	else if (dir == 'E')
+		cub->base_angle = 360 - 33; 
+	else if (dir == 'W')
+		cub->base_angle = 180 - 33; 
 }
