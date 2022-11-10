@@ -32,7 +32,7 @@
 typedef struct s_list
 {
 	void			*content;
-	struct s_list	*next;	
+	struct s_list	*next;
 }				t_list;
 
 typedef struct s_cub
@@ -60,12 +60,17 @@ typedef struct s_cub
 	char			prev_text;
 	char			cur_text;
 	int				text_offset;
+
+	bool				right;
+	bool				left;
+	bool				up;
+	bool				down;
+
+	bool				hit_vertical;
 }				t_cub;
 
 typedef struct s_hit
 {
-	int				v_hit;
-	int				h_hit;
 	double			v_hitX;
 	double			v_hitY;
 	double			h_hitX;
@@ -74,6 +79,11 @@ typedef struct s_hit
 }				t_hit;
 
 # define BUFFER_SIZE 100
+# define WINDOW_WIDTH = 1920;
+# define WINDOW_LENGTH = 1080;
+
+# define WALL_STRIP_THICK = 1;
+# define NUM_RAYS = WINDOW_WIDTH / WALL_STRIP_THICK;
 
 // arg_check.c
 int		arg_check(int ac, char **av, int *fd_add);
