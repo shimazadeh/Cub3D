@@ -6,7 +6,7 @@
 /*   By: aguillar <aguillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 16:18:15 by aguillar          #+#    #+#             */
-/*   Updated: 2022/11/08 16:20:45 by aguillar         ###   ########.fr       */
+/*   Updated: 2022/11/21 16:08:35 by aguillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <sys/wait.h>
 # include <errno.h>
 # include <math.h>
+# include <stdbool.h>
 
 typedef struct s_list
 {
@@ -35,12 +36,42 @@ typedef struct s_list
 	struct s_list	*next;
 }				t_list;
 
+typedef struct s_hit
+{
+	bool 			v_hit;
+	bool			h_hit;
+	double			v_hitX;
+	double			v_hitY;
+	char			v_text;
+	double			h_hitX;
+	double			h_hitY;
+	char			h_text;
+
+}				t_hit;
+
+
+typedef	struct s_im
+{
+	void	*mlx_img;
+	char	*addr;
+	int		bps;
+	int		line_length;
+	int		endian;
+}				t_im;
+
 typedef struct s_cub
 {
+	int				maph;
+	int				mapw;
+	void			*line;
+	double			hookX;
+	double			hookY;
+	double			hookangle;
 	int				ret;
 	int				fd;
 	void			*mlx_ptr;
 	void			*win_ptr;
+	t_im			img[1];
 	void			*no;
 	void			*so;
 	void			*ea;
@@ -57,26 +88,18 @@ typedef struct s_cub
 	double			hitX;
 	double			hitY;
 	double			pwdist;
+	double			dist;
 	char			prev_text;
 	char			cur_text;
 	int				text_offset;
-
-	bool				right;
-	bool				left;
-	bool				up;
-	bool				down;
-
-	bool				hit_vertical;
+	bool			right;
+	bool			left;
+	bool			up;
+	bool			down;
+	t_hit			*hit_str;
+	
 }				t_cub;
 
-typedef struct s_hit
-{
-	double			v_hitX;
-	double			v_hitY;
-	double			h_hitX;
-	double			h_hitY;
-
-}				t_hit;
 
 # define BUFFER_SIZE 100
 # define WINDOW_WIDTH = 1920;
@@ -119,11 +142,6 @@ int		xpm_to_image(char *file, void *mlx_ptr, void **image_add);
 
 void	cub3D(t_cub *cub);
 void	cub3D_render_pos(t_cub *cub, t_hit *hit);
-void	get_cur_angle(t_cub *cub, int i);
-void	get_next_hitpoint(t_cub *cub, t_hit *hit);
-void	get_next_vhit(int i, t_hit *hit, t_cub *cub);
-void	get_next_hhit(int i, t_hit *hit, t_cub *cub);
-void	select_shortest_hitpoint(t_hit *hit, t_cub *cub);
 
 
 // get_next_line_bonus.c
@@ -168,5 +186,21 @@ size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strndup(char *s1, int j);
 char	*ft_strstr(const char *haystack, const char *needle);
+
+
+// bordel
+
+void	draw_line(int i, t_cub *cub);
+void	get_perpwalldist(t_cub *cub);
+void	init_hit_struct(t_hit *hit);
+void	get_next_hitpoint(t_cub *cub, t_hit *hit);
+void	get_cur_angle_and_dir(t_cub *cub, int i);
+double	calculate_distance(double x1, double x2, double y1, double y2);
+void	select_shortest_hitpoint(t_hit *hit, t_cub *cub);
+void	check_if_hit_v(t_hit *hit, t_cub *cub);
+void	check_if_hit_h(t_hit *hit, t_cub *cub);
+void	get_initial_hhit(t_hit *hit, t_cub *cub);
+void	get_initial_vhit(t_hit *hit, t_cub *cub);
+void	update_data(t_hit *hit, t_cub *cub);
 
 #endif

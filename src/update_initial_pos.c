@@ -6,7 +6,7 @@
 /*   By: aguillar <aguillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 15:16:16 by aguillar          #+#    #+#             */
-/*   Updated: 2022/11/08 14:38:51 by aguillar         ###   ########.fr       */
+/*   Updated: 2022/11/18 20:13:35 by aguillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 void	update_initial_pos(int i, int j, char dir, t_cub *cub)
 {
-	cub->posY = i;
-	cub->posX = j;
+	cub->posY = i + 0.5;
+	cub->posX = j + 0.5;
+	cub->hookX = cub->posX;
+	cub->hookY = cub->posY;
 	if (dir == 'N')
 		cub->base_angle = 90 - 33;
 	else if (dir == 'S')
@@ -24,4 +26,5 @@ void	update_initial_pos(int i, int j, char dir, t_cub *cub)
 		cub->base_angle = 360 - 33; 
 	else if (dir == 'W')
 		cub->base_angle = 180 - 33; 
+	cub->hookangle = cub->base_angle;
 }
