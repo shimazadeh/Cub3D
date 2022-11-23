@@ -17,7 +17,7 @@ void	cub3D(t_cub *cub)
 	t_hit	hit[1];
 	int		i;
 	int		j;
-	
+
 	i = 0;
 	j = 0;
 	while (cub->map[i])
@@ -27,7 +27,7 @@ void	cub3D(t_cub *cub)
 	cub->maph = i;
 	cub->mapw = j;
 	init_hit_struct(hit);
-	
+
 	cub->hit_str = hit;
 	cub->win_ptr = mlx_new_window(cub->mlx_ptr, cub->width, cub->height, "lol");
 	if (!cub->win_ptr)
@@ -37,14 +37,14 @@ void	cub3D(t_cub *cub)
 	}
 	cub->img->mlx_img = mlx_new_image(cub->mlx_ptr, cub->width, cub->height);
 	cub->img->addr = mlx_get_data_addr(cub->img->mlx_img, &cub->img->bps, &cub->img->line_length, &cub->img->endian);
-	
-	
+
+
 	mlx_hook(cub->win_ptr, 2, 1L<<0, &key_hook, cub);
 	mlx_hook(cub->win_ptr, 33, 131072, &ft_exit, cub);
 	mlx_loop_hook(cub->mlx_ptr, &handle_no_event, NULL);
 	cub3D_render_pos(cub, hit);
 
-	
+
 	mlx_loop(cub->mlx_ptr);
 	cub3D_render_pos(cub, hit);
 }
@@ -53,18 +53,20 @@ void	cub3D_render_pos(t_cub *cub, t_hit *hit)
 {
 	int	i;
 
-	i = 0;
+	i = cub->width;
 	cub->posX = cub->hookX;
 	cub->posY = cub->hookY;
 	cub->base_angle = cub->hookangle;
-	while (i < cub->width)
+	while (i)
 	{
 		get_cur_angle_and_dir(cub, i);
 		init_hit_struct(hit);
 		get_next_hitpoint(cub, hit);
 		get_perpwalldist(cub);
+		// printf("i is: %d, cur angle: %f, base angle: %d per dist: %f, dist: %f\n", i, cub->cur_angle, cub->base_angle, cub->pwdist, cub->dist);
+		printf("htX, %f, hitY %f\n", cub->hitX, cub->hitY);
 		draw_line(i, cub);
-		i += 16;
+		i -= 16;
 	}
 	mlx_put_image_to_window(cub->mlx_ptr,cub->win_ptr, cub->img->mlx_img, 0, 0);
 }
@@ -75,7 +77,7 @@ void	get_cur_angle_and_dir(t_cub *cub, int i)
 	cub->left = false;
 	cub->up = false;
 	cub->down = false;
-	cub->cur_angle = (cub->base_angle + ((cub->width - i) / cub->width) * 66);
+	cub->cur_angle = ((double)cub->base_angle + ((double)i / (double)cub->width) * 66);
 	if (cub->cur_angle > 360)
 		cub->cur_angle -= 360;
 	else if (cub->cur_angle < 0)
@@ -97,16 +99,17 @@ void	get_next_hitpoint(t_cub *cub, t_hit *hit)
 	double	y_step_h;
 	double	x_step_v;
 	double	y_step_v;
-	
+
 	x_step_v = 1;
-	y_step_v = tan(cub->cur_angle);
-	x_step_h = 1 / tan(cub->cur_angle); //1 is the tile size
+	y_step_v = tan(cub->cur_angle * (M_PI / 180));
+	x_step_h = 1 / tan(cub->cur_angle * (M_PI / 180)); //1 is the tile size
 	y_step_h = 1;
-	
+
 	get_initial_vhit(hit, cub);
 	get_initial_hhit(hit, cub);
 	while(!hit->v_hit && !hit->h_hit)
 	{
+		printf("looping\n");
 		hit->v_hitX += x_step_v;
  		hit->v_hitY += y_step_v;
 		hit->h_hitX += x_step_h;
@@ -134,11 +137,13 @@ void	get_perpwalldist(t_cub *cub)
 {
 	double	theta;
 
-	theta = cub->base_angle - 57;
-	if (theta > 359)
+	theta = (double)cub->cur_angle - 57;
+	if (theta > 360)
 		theta -= 360;
 	else if (theta < 0)
 		theta += 360;
+	theta *= (M_PI / 180);
+	// printf("bas angle %d, cos is %f, theta is %f, pi is %f\n", cub->base_angle, cos(theta), theta, M_PI);
 	cub->pwdist = cub->dist * cos(theta);
 }
 
@@ -172,7 +177,7 @@ void	draw_line(int i, t_cub *cub)
 	int	k;
 
 	k = i + 16;
-	size = 128 / cub->pwdist;
+	size = 1080 / cub->pwdist;
 	start = 540 - size / 2;
 	while (i < k)
 	{

@@ -27,8 +27,8 @@ void	get_initial_vhit(t_hit *hit, t_cub *cub)
 	if (cub->right)
 		hit->h_hitX += 1;
 	delta_x = cub->posX - hit->v_hitX;
-	hit->v_hitX = delta_x;
-	hit->v_hitY = cub->posY + (-delta_x * tan(cub->base_angle));
+	// hit->v_hitX = delta_x;
+	hit->v_hitY = cub->posY + (-delta_x * tan(cub->base_angle * M_PI / 180));
 	check_if_hit_v(hit, cub);
 }
 
@@ -40,8 +40,9 @@ void	get_initial_hhit(t_hit *hit, t_cub *cub)
 	if (cub->down)
 		hit->h_hitY += 1;
 	delta_y = cub->posY - hit->h_hitY;
-	hit->h_hitY = delta_y;
-	hit->h_hitX = cub->posX + delta_y / tan(cub->base_angle);
+	// hit->h_hitY = delta_y;
+	hit->h_hitX = cub->posX + delta_y / tan(cub->base_angle * (M_PI / 180));
+	// printf("deltay is %f, posx %f, poxY %f\n", delta_y, cub->posX, cub->posY);
 	check_if_hit_h(hit, cub);
 }
 
@@ -66,6 +67,7 @@ void	check_if_hit_h(t_hit *hit, t_cub *cub)
 	}
 	if (i >= 0 && i <= cub->maph && j >= 0 && j <= cub->mapw)
 	{
+		printf("i is %d, j is %d\n", i, j);
 		if (cub->map[i][j] == '1')
 		{
 			hit->h_hit = 1;
@@ -93,9 +95,10 @@ void	check_if_hit_v(t_hit *hit, t_cub *cub)
 		j = hit->v_hitX;
 		text = 'e';
 	}
-	if (i >= 0 && i <= cub->maph && j >= 0 && j <= cub->mapw)
+	if (i >= 0 && i < cub->maph && j >= 0 && j < cub->mapw)
 	{
-		if (cub->map[i][j]== '1')
+		printf("i is %d, j is %d\n", i, j);
+		if (cub->map[i][j] == '1')
 		{
 			hit->v_hit = 1;
 			hit->v_text = text;
@@ -111,10 +114,15 @@ void	select_shortest_hitpoint(t_hit *hit, t_cub *cub)
 	h_distance = 0;
 	v_distance = 0;
 	if (hit->h_hit)
+	{
 		h_distance = calculate_distance(hit->h_hitX, cub->posX, hit->h_hitY, cub->posY);
+		// printf("horizontal hit with %f\n", h_distance);
+	}
 	if (hit->v_hit)
+	{
 		v_distance = calculate_distance(hit->v_hitX, cub->posX, hit->v_hitY, cub->posY);
-	
+		// printf("vertical hit with %f\n", v_distance);
+	}
 	if (hit->v_hit && hit->h_hit)
 	{
 		if (v_distance < h_distance)
