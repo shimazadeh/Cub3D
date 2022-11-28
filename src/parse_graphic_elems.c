@@ -36,13 +36,13 @@ int	parse_texture(char *str, void *mlx_ptr, void **image_add)
 	int		fd;
 	int		len;
 
-	fd = 0;  
+	fd = 0;
 	tab = ft_split(str, ' ');
 	if (!tab || !tab[0] || (tab[0] && tab[1]))
 		return (ft_putstr_fd("Error\nIncorrect texture path syntax!\n", 2), 0);
 	len = ft_strlen(tab[0]);
 	if (len && tab[0][len - 1] == '\n')
-		 tab[0][len - 1] = '\0';
+		tab[0][len - 1] = '\0';
 	if (!open_file(tab[0], &fd))
 	{
 		free_tab(tab);
@@ -52,7 +52,7 @@ int	parse_texture(char *str, void *mlx_ptr, void **image_add)
 	if (!xpm_to_image(tab[0], mlx_ptr, image_add))
 	{
 		free_tab(tab);
-		return (0);		
+		return (0);
 	}
 	free_tab(tab);
 	return (1);
@@ -61,7 +61,7 @@ int	parse_texture(char *str, void *mlx_ptr, void **image_add)
 int	parse_color_code(char *str, int *color_code_add)
 {
 	int	flag;
-	int color;
+	int	color;
 	int	i;
 
 	i = 1;

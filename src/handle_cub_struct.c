@@ -14,8 +14,8 @@
 
 void	init_cub_struct(t_cub *cub)
 {
-	cub->hookX = 0;
-	cub->hookY = 0;
+	cub->hookx = 0;
+	cub->hooky = 0;
 	cub->hookangle = 0;
 	cub->ret = 0;
 	cub->fd = 0;
@@ -30,19 +30,19 @@ void	init_cub_struct(t_cub *cub)
 	cub->map = NULL;
 	cub->height = 1080;
 	cub->width = 1920;
-	cub->posX = 0;
-	cub->posY = 0;
-	
+	cub->posx = 0;
+	cub->posy = 0;
+
 	cub->img->mlx_img = NULL;
 	cub->img->addr = NULL;
 	cub->img->bps = 0;
 	cub->img->line_length = 0;
 	cub->img->endian = 0;
-	
+
 	cub->base_angle = 0;
 	cub->cur_angle = 0;
-	cub->hitX = 0;
-	cub->hitY = 0;
+	cub->hitx = 0;
+	cub->hity = 0;
 	cub->pwdist = 0;
 	cub->dist = 0;
 	cub->cur_text = 0;
@@ -52,7 +52,7 @@ void	init_cub_struct(t_cub *cub)
 	cub->left = false;
 	cub->up = false;
 	cub->down = false;
-	
+
 }
 
 void	destroy_cub_struct(t_cub *cub)

@@ -12,7 +12,7 @@
 
 #include "cub3D.h"
 
-int		parsing(int fd, t_cub *cub)
+int	parsing(int fd, t_cub *cub)
 {
 	int		flag;
 	char	*str;

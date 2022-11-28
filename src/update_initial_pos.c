@@ -14,17 +14,17 @@
 
 void	update_initial_pos(int i, int j, char dir, t_cub *cub)
 {
-	cub->posY = i + 0.5;
-	cub->posX = j + 0.5;
-	cub->hookX = cub->posX;
-	cub->hookY = cub->posY;
+	cub->posy = i + 0.5;
+	cub->posx = j + 0.5;
+	cub->hookx = cub->posx;
+	cub->hooky = cub->posy;
 	if (dir == 'N')
 		cub->base_angle = 90 - 33;
 	else if (dir == 'S')
-		cub->base_angle = 270 - 33; 
+		cub->base_angle = 270 - 33;
 	else if (dir == 'E')
-		cub->base_angle = 360 - 33; 
+		cub->base_angle = 360 - 33;
 	else if (dir == 'W')
-		cub->base_angle = 180 - 33; 
+		cub->base_angle = 180 - 33;
 	cub->hookangle = cub->base_angle;
 }

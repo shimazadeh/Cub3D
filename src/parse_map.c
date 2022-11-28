@@ -66,6 +66,7 @@ int	map_pos_is_valid(int i, int j, int *flag, t_cub *cub)
 	if (ft_strchr("NESW", map[i][j]))
 	{
 		update_initial_pos(i, j, map[i][j], cub);
+		map[i][j] = '0';
 		*flag = 1;
 	}
 	return (1);

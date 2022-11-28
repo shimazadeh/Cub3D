@@ -24,23 +24,23 @@ int	key_hook(int keycode, t_cub *cub)
 		ft_exit(cub);
 	else if (keycode == XK_w)
 	{
-		if (cub->map[(int)(cub->posY) - 1][(int)(cub->posX)] == '0')
-			cub->hookX -= 0.1;
+		if (cub->map[(int)(cub->posy - 0.1)][(int)(cub->posx)] == '0')
+			cub->hooky -= 0.1;
 	}
 	else if (keycode == XK_s)
 	{
-		if (cub->map[(int)(cub->posY) + 1][(int)(cub->posX)] == '0')
-			cub->hookY += 0.1;
+		if (cub->map[(int)(cub->posy + 0.1)][(int)(cub->posx)] == '0')
+			cub->hooky += 0.1;
 	}
 	else if (keycode == XK_d)
 	{
-		if (cub->map[(int)(cub->posY)][(int)(cub->posX) + 1] == '0')
-			cub->hookX += 0.1;
+		if (cub->map[(int)(cub->posy)][(int)(cub->posx + 0.1)] == '0')
+			cub->hookx += 0.1;
 	}
 	else if (keycode == XK_a)
 	{
-		if (cub->map[(int)(cub->posY)][(int)(cub->posX) - 1] == '0')
-			cub->hookX -= 0.1;
+		if (cub->map[(int)(cub->posy)][(int)(cub->posx - 0.1)] == '0')
+			cub->hookx -= 0.1;
 	}
 	else if (keycode == XK_Right)
 	{

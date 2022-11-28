@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SO_LONG_H
-# define SO_LONG_H
+#ifndef CUB3D_H
+# define CUB3D_H
 
 # include "../minilibx-linux/mlx.h"
 # include "../minilibx-linux/mlx_int.h"
@@ -38,19 +38,18 @@ typedef struct s_list
 
 typedef struct s_hit
 {
-	bool 			v_hit;
+	bool			v_hit;
 	bool			h_hit;
-	double			v_hitX;
-	double			v_hitY;
+	double			v_hitx;
+	double			v_hity;
 	char			v_text;
-	double			h_hitX;
-	double			h_hitY;
+	double			h_hitx;
+	double			h_hity;
 	char			h_text;
 
 }				t_hit;
 
-
-typedef	struct s_im
+typedef struct s_im
 {
 	void	*mlx_img;
 	char	*addr;
@@ -64,8 +63,8 @@ typedef struct s_cub
 	int				maph;
 	int				mapw;
 	void			*line;
-	double			hookX;
-	double			hookY;
+	double			hookx;
+	double			hooky;
 	double			hookangle;
 	int				ret;
 	int				fd;
@@ -81,12 +80,12 @@ typedef struct s_cub
 	char			**map;
 	int				height;
 	int				width;
-	double			posX;
-	double			posY;
+	double			posx;
+	double			posy;
 	int				base_angle;
 	double			cur_angle;
-	double			hitX;
-	double			hitY;
+	double			hitx;
+	double			hity;
 	double			pwdist;
 	double			dist;
 	char			prev_text;
@@ -97,16 +96,12 @@ typedef struct s_cub
 	bool			up;
 	bool			down;
 	t_hit			*hit_str;
-	
+
 }				t_cub;
 
-
 # define BUFFER_SIZE 100
-# define WINDOW_WIDTH = 1920;
-# define WINDOW_LENGTH = 1080;
-
-# define WALL_STRIP_THICK = 1;
-# define NUM_RAYS = WINDOW_WIDTH / WALL_STRIP_THICK;
+# define WINDOW_WIDTH 1920
+# define WINDOW_LENGTH 1080
 
 // arg_check.c
 int		arg_check(int ac, char **av, int *fd_add);
@@ -142,7 +137,6 @@ int		xpm_to_image(char *file, void *mlx_ptr, void **image_add);
 
 void	cub3D(t_cub *cub);
 void	cub3D_render_pos(t_cub *cub, t_hit *hit);
-
 
 // get_next_line_bonus.c
 
@@ -187,18 +181,19 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strndup(char *s1, int j);
 char	*ft_strstr(const char *haystack, const char *needle);
 
-
 // bordel
 
 void	draw_line(int i, t_cub *cub);
 void	get_perpwalldist(t_cub *cub);
 void	init_hit_struct(t_hit *hit);
 void	get_next_hitpoint(t_cub *cub, t_hit *hit);
+void	get_horizontal_hit(t_cub *cub, t_hit *hit);
+void	get_vertical_hit(t_cub *cub, t_hit *hit);
 void	get_cur_angle_and_dir(t_cub *cub, int i);
-double	calculate_distance(double x1, double x2, double y1, double y2);
+double	distance(double x1, double x2, double y1, double y2);
 void	select_shortest_hitpoint(t_hit *hit, t_cub *cub);
-void	check_if_hit_v(t_hit *hit, t_cub *cub);
-void	check_if_hit_h(t_hit *hit, t_cub *cub);
+bool	check_if_hit_v(t_hit *hit, t_cub *cub);
+bool	check_if_hit_h(t_hit *hit, t_cub *cub);
 void	get_initial_hhit(t_hit *hit, t_cub *cub);
 void	get_initial_vhit(t_hit *hit, t_cub *cub);
 void	update_data(t_hit *hit, t_cub *cub);

@@ -32,3 +32,12 @@ int	main(int ac, char **av)
 	ft_exit(cub);
 	return (0);
 }
+
+/*
+1. map: empty line
+2. when map is invalid the window still launches
+3. hooks are not right for front and back
+4. textures
+5. drawing the minimap
+6. FISH EYE EFFECT
+*/
