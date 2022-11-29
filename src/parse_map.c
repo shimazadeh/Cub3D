@@ -6,13 +6,13 @@
 /*   By: aguillar <aguillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 13:31:53 by aguillar          #+#    #+#             */
-/*   Updated: 2022/11/07 16:21:09 by aguillar         ###   ########.fr       */
+/*   Updated: 2022/11/29 13:41:17 by aguillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	parse_map(char *str, t_cub *cub)
+int	parse_map(char *str, t_cub *cub)
 {
 	int	i;
 	int	j;
@@ -20,13 +20,20 @@ void	parse_map(char *str, t_cub *cub)
 
 	i = 0;
 	flag = 0;
-	if (ft_strstr(str, "\n\n"))
+	while (str[i] == '\n')
+		i++;
+	j = ft_strlen(str) - 1;
+	while (j > 0 && str[j] == '\n')
+		j--;
+	str[j + 1] = '\0';
+	if (ft_strstr(&str[i], "\n\n"))
 	{
 		ft_putstr_fd("Error\nMap is invalid!\n", 2);
-		return ;
+		return (0);
 	}
-	cub->map = ft_split(str, '\n');
+	cub->map = ft_split(&str[i], '\n');
 	free(str);
+	i = 0;
 	while ((cub->map)[i])
 	{
 		j = 0;
@@ -35,12 +42,13 @@ void	parse_map(char *str, t_cub *cub)
 			if (!map_pos_is_valid(i, j, &flag, cub))
 			{
 				ft_putstr_fd("Error\nMap is invalid!\n", 2);
-				return ;
+				return (0);
 			}
 			j++;
 		}
 		i++;
 	}
+	return (1);
 }
 
 int	map_pos_is_valid(int i, int j, int *flag, t_cub *cub)

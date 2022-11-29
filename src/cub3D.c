@@ -6,7 +6,7 @@
 /*   By: aguillar <aguillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 18:56:14 by aguillar          #+#    #+#             */
-/*   Updated: 2022/11/21 17:08:06 by aguillar         ###   ########.fr       */
+/*   Updated: 2022/11/29 16:35:44 by aguillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ void	get_perpwalldist(t_cub *cub)
 		theta -= 360;
 	else if (theta < 0)
 		theta += 360;
-	cub->pwdist = cub->dist * sin(theta * (M_PI / 180));
-	printf("CUR ANGLE = %f THETA = %f DIST %f PWDIST = %f\n", cub->cur_angle, theta, cub->dist, cub->pwdist);
+	cub->pwdist = sqrt(cub->dist) * sin(theta * (M_PI / 180));
+	// printf("CUR ANGLE = %f THETA = %f DIST %f PWDIST = %f\n", cub->cur_angle, theta, cub->dist, cub->pwdist);
 }
 
 void	img_pix_put(t_cub *cub, t_im *img, int x, int y, int color)
@@ -137,11 +137,14 @@ void	draw_line(int i, t_cub *cub)
 	int	start;
 	int	j;
 	int	k;
+	double	offset;
 
+	offset = 0;
 	k = i + 1;
-	// wall_height = 1080 / (cub->pwdist * 0.5);
 	wall_height = ((WINDOW_WIDTH / 2) / tan(33 * M_PI / 180)) / cub->pwdist;
 	start = (WINDOW_LENGTH / 2) - wall_height / 2;
+	// if (start < 0)
+	// 	start = 0;
 	while (i < k)
 	{
 		j = 0;
@@ -150,16 +153,16 @@ void	draw_line(int i, t_cub *cub)
 			img_pix_put(cub, cub->img, i, j, cub->fl);
 			j++;
 		}
-		while (j < start + wall_height)
+		while (j < start + wall_height) // && j < 1080 - start)
 		{
 			if (cub->cur_text == 'n')
-				img_pix_put(cub, cub->img, i, j, 16744576);
+				img_pix_put(cub, cub->img, i, j, get_pix(cub->no, 128 / wall_height, &offset, cub->text_offset));
 			else if (cub->cur_text == 'e')
-				img_pix_put(cub, cub->img, i, j, 16744448);
+				img_pix_put(cub, cub->img, i, j, get_pix(cub->ea, 128 / wall_height, &offset, cub->text_offset));
 			else if (cub->cur_text == 's')
-				img_pix_put(cub, cub->img, i, j, 32896);
+				img_pix_put(cub, cub->img, i, j, get_pix(cub->so, 128 / wall_height, &offset, cub->text_offset));
 			else if (cub->cur_text == 'w')
-				img_pix_put(cub, cub->img, i, j, 8388736);
+				img_pix_put(cub, cub->img, i, j, get_pix(cub->we, 128 / wall_height, &offset, cub->text_offset));
 			j++;
 		}
 		while (j < 1080)
@@ -169,4 +172,18 @@ void	draw_line(int i, t_cub *cub)
 		}
 		i++;
 	}
+	if (cub->prev_text == cub->cur_text)
+		cub->text_offset += 128 / wall_height;
+	else
+		cub->text_offset = 0;
+}
+
+int	get_pix(void *img, double ratio, double *offset, double text_offset)
+{
+	int	pixel;
+
+	pixel = ((int *)img)[(int)text_offset * 128 + *(int *)offset];
+	printf("%d\n", (int)text_offset * 128 + *(int *)offset);
+	*offset += ratio;
+	return (pixel);
 }

@@ -6,7 +6,7 @@
 /*   By: aguillar <aguillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 18:55:32 by aguillar          #+#    #+#             */
-/*   Updated: 2022/11/01 15:39:00 by aguillar         ###   ########.fr       */
+/*   Updated: 2022/11/29 13:37:11 by aguillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,20 @@ int	parsing(int fd, t_cub *cub)
 	char	*map_str;
 	int		ret;
 
-	ret = 1;
+	ret = 0;
 	flag = 0;
 	map_str = NULL;
 	tmp = NULL;
 	str = get_next_line(fd);
 	while (str)
 	{
-		if (ret && str[0] != '\n' && flag < 6)
+		if (!ret && str[0] != '\n' && flag < 6)
 		{
 			if (!parse_graphic_elems(str, cub))
-				ret = 0;
+				ret = 1;
 			flag++;
 		}
-		else if (ret && str[0] != '\n')
+		else if (!ret)
 		{
 			tmp = map_str;
 			map_str = ft_strjoin(tmp, str);
@@ -42,11 +42,15 @@ int	parsing(int fd, t_cub *cub)
 		free(str);
 		str = get_next_line(fd);
 	}
-	if (!ret)
+	if (ret)
+	{
+		close(fd);
 		return (ret);
+	}
 	if (map_str)
 		flag++;
-	parse_map(map_str, cub);
+	if (!parse_map(map_str, cub))
+		return (0);
 	if (flag < 6)
 		return (close(fd), \
 			ft_putstr_fd("Error\nMissing texture element in file!\n", 2), 0);

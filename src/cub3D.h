@@ -6,7 +6,7 @@
 /*   By: aguillar <aguillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 16:18:15 by aguillar          #+#    #+#             */
-/*   Updated: 2022/11/21 16:08:35 by aguillar         ###   ########.fr       */
+/*   Updated: 2022/11/29 16:29:24 by aguillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,16 @@ typedef struct s_cub
 	double			dist;
 	char			prev_text;
 	char			cur_text;
-	int				text_offset;
+	double			text_offset;
 	bool			right;
 	bool			left;
 	bool			up;
 	bool			down;
 	t_hit			*hit_str;
-
+	int				xk_n;
+	int				xk_s;
+	int				xk_e;
+	int				xk_w;
 }				t_cub;
 
 # define BUFFER_SIZE 100
@@ -126,7 +129,7 @@ int		get_color(char *str, int *i, int *color);
 
 // parse_map.c
 
-void	parse_map(char *str, t_cub *cub);
+int		parse_map(char *str, t_cub *cub);
 int		map_pos_is_valid(int i, int j, int *flag, t_cub *cub);
 
 // images.c
@@ -157,6 +160,14 @@ int		key_hook(int keycode, t_cub *cub);
 // update_initial_pos.c
 
 void	update_initial_pos(int i, int j, char dir, t_cub *cub);
+
+// 
+
+void	update_keycodes(t_cub *cub);
+
+//
+
+int	get_pix(void *img, double ratio, double *offset, double text_offset);
 
 // libft
 
