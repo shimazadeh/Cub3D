@@ -15,13 +15,13 @@
 int	parse_graphic_elems(char *str, t_cub *cub)
 {
 	if (!ft_strncmp(str, "NO ", 3))
-		return (parse_texture(&str[2], cub->mlx_ptr, &cub->no));
+		return (parse_texture(&str[2], cub->mlx_ptr, cub->img_no));
 	if (!ft_strncmp(str, "SO ", 3))
-		return (parse_texture(&str[2], cub->mlx_ptr, &cub->so));
+		return (parse_texture(&str[2], cub->mlx_ptr, cub->img_so));
 	if (!ft_strncmp(str, "EA ", 3))
-		return (parse_texture(&str[2], cub->mlx_ptr, &cub->ea));
+		return (parse_texture(&str[2], cub->mlx_ptr, cub->img_ea));
 	if (!ft_strncmp(str, "WE ", 3))
-		return (parse_texture(&str[2], cub->mlx_ptr, &cub->we));
+		return (parse_texture(&str[2], cub->mlx_ptr, cub->img_we));
 	if (!ft_strncmp(str, "F ", 2))
 		return (parse_color_code(&str[1], &cub->fl));
 	if (!ft_strncmp(str, "C ", 2))
@@ -30,7 +30,7 @@ int	parse_graphic_elems(char *str, t_cub *cub)
 		return (ft_putstr_fd("Error\nIncorrect graphic element syntax!\n", 2), 0);
 }
 
-int	parse_texture(char *str, void *mlx_ptr, void **image_add)
+int	parse_texture(char *str, void *mlx_ptr, t_im *img)
 {
 	char	**tab;
 	int		fd;
@@ -49,7 +49,7 @@ int	parse_texture(char *str, void *mlx_ptr, void **image_add)
 		return (0);
 	}
 	close (fd);
-	if (!xpm_to_image(tab[0], mlx_ptr, image_add))
+	if (!xpm_to_image(tab[0], mlx_ptr, &img->mlx_img, img))
 	{
 		free_tab(tab);
 		return (0);

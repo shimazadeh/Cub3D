@@ -37,7 +37,7 @@ int	open_file(char *str, int *fd_add)
 	fd = open(str, O_RDONLY);
 	if (fd == -1)
 		return (ft_putstr_fd("Error\n", 2), ft_putstr_fd(str, 2), \
-		 ft_putstr_fd(": ", 2), perror(NULL), 0);
+		ft_putstr_fd(": ", 2), perror(NULL), 0);
 	else
 		*fd_add = fd;
 	return (1);

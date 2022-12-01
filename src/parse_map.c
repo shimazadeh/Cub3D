@@ -61,11 +61,13 @@ int	map_pos_is_valid(int i, int j, int *flag, t_cub *cub)
 		|| (map[i + 1] && ((int)ft_strlen(map[i + 1]) > j) && !ft_strchr(" 1", map[i + 1][j])) \
 		|| (j && map[i][j - 1] && !ft_strchr(" 1", map[i][j - 1]))))
 		return (0);
-	else if (map[i][j] == '0' && (!i || !((int)ft_strlen(map[i - 1]) > j) || !j || !map[i + 1] || !((int)ft_strlen(map[i + 1]) > j)|| !map[i][j + 1] \
+	else if (map[i][j] == '0' && (!i || !((int)ft_strlen(map[i - 1]) > j) || !j \
+		|| !map[i + 1] || !((int)ft_strlen(map[i + 1]) > j) || !map[i][j + 1] \
 		|| !ft_strchr("01NESW", map[i - 1][j]) || !ft_strchr("01NESW", map[i][j + 1]) \
 		|| !ft_strchr("01NESW", map[i + 1][j]) || !ft_strchr("01NESW", map[i][j - 1])))
 		return (0);
-	else if (ft_strchr("NESW", map[i][j]) && (*flag || !i || !((int)ft_strlen(map[i - 1]) > j) || !j || !map[i + 1] || !((int)ft_strlen(map[i + 1]) > j)|| !map[i][j + 1] \
+	else if (ft_strchr("NESW", map[i][j]) && (*flag || !i || !((int)ft_strlen(map[i - 1]) > j) \
+		|| !j || !map[i + 1] || !((int)ft_strlen(map[i + 1]) > j) || !map[i][j + 1] \
 		|| !ft_strchr("01NESW", map[i - 1][j]) || !ft_strchr("01NESW", map[i][j + 1]) \
 		|| !ft_strchr("01NESW", map[i + 1][j]) || !ft_strchr("01NESW", map[i][j - 1])))
 		return (0);

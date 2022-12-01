@@ -71,10 +71,10 @@ typedef struct s_cub
 	void			*mlx_ptr;
 	void			*win_ptr;
 	t_im			img[1];
-	void			*no;
-	void			*so;
-	void			*ea;
-	void			*we;
+	t_im			img_no[1];
+	t_im			img_so[1];
+	t_im			img_ea[1];
+	t_im			img_we[1];
 	int				fl;
 	int				ce;
 	char			**map;
@@ -113,6 +113,8 @@ int		open_file(char *str, int *fd_add);
 // handle_cub_struct.c
 
 void	init_cub_struct(t_cub *cub);
+void	init_img_struct(t_im *img);
+void	init_cub_parameter(t_cub *cub);
 void	destroy_cub_struct(t_cub *cub);
 
 // parsing.c
@@ -123,7 +125,7 @@ int		get_texture(char *str, t_cub *cub);
 // parse_graphic_elems.c
 
 int		parse_graphic_elems(char *str, t_cub *cub);
-int		parse_texture(char *str, void *mlx_ptr, void **image_add);
+int		parse_texture(char *str, void *mlx_ptr, t_im *img);
 int		parse_color_code(char *str, int *color_code_add);
 int		get_color(char *str, int *i, int *color);
 
@@ -131,15 +133,16 @@ int		get_color(char *str, int *i, int *color);
 
 int		parse_map(char *str, t_cub *cub);
 int		map_pos_is_valid(int i, int j, int *flag, t_cub *cub);
+void	set_map_size(t_cub *cub);
 
 // images.c
 
-int		xpm_to_image(char *file, void *mlx_ptr, void **image_add);
+int		xpm_to_image(char *file, void *mlx_ptr, void **image_add, t_im *img);
 
 // cub3D.c
 
-void	cub3D(t_cub *cub);
-void	cub3D_render_pos(t_cub *cub, t_hit *hit);
+void	cub3d(t_cub *cub);
+void	cub3d_render_pos(t_cub *cub, t_hit *hit);
 
 // get_next_line_bonus.c
 
@@ -156,18 +159,22 @@ int		ft_exit(t_cub *cub);
 
 int		handle_no_event(void *data);
 int		key_hook(int keycode, t_cub *cub);
+void	update_positions(int keycode, t_cub *cub);
 
 // update_initial_pos.c
 
 void	update_initial_pos(int i, int j, char dir, t_cub *cub);
 
-// 
+//
 
 void	update_keycodes(t_cub *cub);
+void	update_keycodes_ns(int dir, t_cub *cub);
+void	update_keycodes_ew(int dir, t_cub *cub);
 
 //
 
-int	get_pix(void *img, double ratio, double *offset, double text_offset);
+int		get_pix(t_im *img, double ratio, double *offset, double text_offset);
+void	img_pix_put(t_cub *cub, t_im *img, int x, int y, int color);
 
 // libft
 

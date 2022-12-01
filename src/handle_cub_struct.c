@@ -14,6 +14,20 @@
 
 void	init_cub_struct(t_cub *cub)
 {
+	init_cub_parameter(cub);
+	init_img_struct(cub->img);
+	init_img_struct(cub->img_no);
+	init_img_struct(cub->img_so);
+	init_img_struct(cub->img_ea);
+	init_img_struct(cub->img_we);
+	cub->right = false;
+	cub->left = false;
+	cub->up = false;
+	cub->down = false;
+}
+
+void	init_cub_parameter(t_cub *cub)
+{
 	cub->hookx = 0;
 	cub->hooky = 0;
 	cub->hookangle = 0;
@@ -21,10 +35,6 @@ void	init_cub_struct(t_cub *cub)
 	cub->fd = 0;
 	cub->mlx_ptr = NULL;
 	cub->win_ptr = NULL;
-	cub->no = NULL;
-	cub->so = NULL;
-	cub->ea = NULL;
-	cub->we = NULL;
 	cub->fl = 0;
 	cub->ce = 0;
 	cub->map = NULL;
@@ -32,13 +42,6 @@ void	init_cub_struct(t_cub *cub)
 	cub->width = 1920;
 	cub->posx = 0;
 	cub->posy = 0;
-
-	cub->img->mlx_img = NULL;
-	cub->img->addr = NULL;
-	cub->img->bps = 0;
-	cub->img->line_length = 0;
-	cub->img->endian = 0;
-
 	cub->base_angle = 0;
 	cub->cur_angle = 0;
 	cub->hitx = 0;
@@ -48,25 +51,29 @@ void	init_cub_struct(t_cub *cub)
 	cub->cur_text = 0;
 	cub->prev_text = 0;
 	cub->text_offset = 0;
-	cub->right = false;
-	cub->left = false;
-	cub->up = false;
-	cub->down = false;
+}
 
+void	init_img_struct(t_im *img)
+{
+	img->mlx_img = NULL;
+	img->addr = NULL;
+	img->bps = 0;
+	img->line_length = 0;
+	img->endian = 0;
 }
 
 void	destroy_cub_struct(t_cub *cub)
 {
 	if (cub->win_ptr)
 		mlx_destroy_window(cub->mlx_ptr, cub->win_ptr);
-	if (cub->no)
-		mlx_destroy_image(cub->mlx_ptr, cub->no);
-	if (cub->so)
-		mlx_destroy_image(cub->mlx_ptr, cub->so);
-	if (cub->ea)
-		mlx_destroy_image(cub->mlx_ptr, cub->ea);
-	if (cub->we)
-		mlx_destroy_image(cub->mlx_ptr, cub->we);
+	if (cub->img_no->mlx_img)
+		mlx_destroy_image(cub->mlx_ptr, cub->img_no->mlx_img);
+	if (cub->img_so->mlx_img)
+		mlx_destroy_image(cub->mlx_ptr, cub->img_so->mlx_img);
+	if (cub->img_ea->mlx_img)
+		mlx_destroy_image(cub->mlx_ptr, cub->img_ea->mlx_img);
+	if (cub->img_we->mlx_img)
+		mlx_destroy_image(cub->mlx_ptr, cub->img_we->mlx_img);
 	if (cub->mlx_ptr)
 	{
 		mlx_destroy_display(cub->mlx_ptr);
