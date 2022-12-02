@@ -217,5 +217,9 @@ bool	check_if_hit_h(t_hit *hit, t_cub *cub);
 void	get_initial_hhit(t_hit *hit, t_cub *cub);
 void	get_initial_vhit(t_hit *hit, t_cub *cub);
 void	update_data(t_hit *hit, t_cub *cub);
+int		parse_map2(int i, int j, int flag, t_cub *cub);
+int		map_pos_pos(int i, int j, int *flag, char **map);
+int		map_pos_space(int i, int j, char **map);
+int		map_pos_zero(int i, int j, char **map);
 
 #endif

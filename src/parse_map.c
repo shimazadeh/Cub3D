@@ -33,6 +33,13 @@ int	parse_map(char *str, t_cub *cub)
 	}
 	cub->map = ft_split(&str[i], '\n');
 	free(str);
+	if (!parse_map2(i, j, flag, cub))
+		return (0);
+	return (1);
+}
+
+int	parse_map2(int i, int j, int flag, t_cub *cub)
+{
 	i = 0;
 	while ((cub->map)[i])
 	{
@@ -56,20 +63,11 @@ int	map_pos_is_valid(int i, int j, int *flag, t_cub *cub)
 	char	**map;
 
 	map = cub->map;
-	if (map[i][j] == ' ' && ((i && ((int)ft_strlen(map[i - 1]) > j) && !ft_strchr("1 ", map[i - 1][j])) \
-		|| (map[i][j + 1] && !ft_strchr(" 1", map[i][j + 1])) \
-		|| (map[i + 1] && ((int)ft_strlen(map[i + 1]) > j) && !ft_strchr(" 1", map[i + 1][j])) \
-		|| (j && map[i][j - 1] && !ft_strchr(" 1", map[i][j - 1]))))
+	if (!map_pos_space(i, j, map))
 		return (0);
-	else if (map[i][j] == '0' && (!i || !((int)ft_strlen(map[i - 1]) > j) || !j \
-		|| !map[i + 1] || !((int)ft_strlen(map[i + 1]) > j) || !map[i][j + 1] \
-		|| !ft_strchr("01NESW", map[i - 1][j]) || !ft_strchr("01NESW", map[i][j + 1]) \
-		|| !ft_strchr("01NESW", map[i + 1][j]) || !ft_strchr("01NESW", map[i][j - 1])))
+	else if (!map_pos_zero(i, j, map))
 		return (0);
-	else if (ft_strchr("NESW", map[i][j]) && (*flag || !i || !((int)ft_strlen(map[i - 1]) > j) \
-		|| !j || !map[i + 1] || !((int)ft_strlen(map[i + 1]) > j) || !map[i][j + 1] \
-		|| !ft_strchr("01NESW", map[i - 1][j]) || !ft_strchr("01NESW", map[i][j + 1]) \
-		|| !ft_strchr("01NESW", map[i + 1][j]) || !ft_strchr("01NESW", map[i][j - 1])))
+	else if (!map_pos_pos(i, j, flag, map))
 		return (0);
 	else if (!ft_strchr("01 NESW", map[i][j]))
 		return (0);
