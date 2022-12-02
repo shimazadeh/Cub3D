@@ -20,6 +20,7 @@ void	update_data(t_hit *hit, t_cub *cub)
 		cub->hity = hit->v_hity;
 		cub->prev_text = cub->cur_text;
 		cub->cur_text = hit->v_text;
+		cub->text_offset = (hit->v_hity - floor(hit->v_hity)) * 64;
 	}
 	else
 	{
@@ -27,6 +28,7 @@ void	update_data(t_hit *hit, t_cub *cub)
 		cub->hity = hit->h_hity;
 		cub->prev_text = cub->cur_text;
 		cub->cur_text = hit->h_text;
+		cub->text_offset = (hit->h_hitx - floor(hit->h_hitx)) * 64;
 	}
 }
 

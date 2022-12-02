@@ -74,6 +74,8 @@ void	destroy_cub_struct(t_cub *cub)
 		mlx_destroy_image(cub->mlx_ptr, cub->img_ea->mlx_img);
 	if (cub->img_we->mlx_img)
 		mlx_destroy_image(cub->mlx_ptr, cub->img_we->mlx_img);
+	if (cub->img->mlx_img)
+		mlx_destroy_image(cub->mlx_ptr, cub->img->mlx_img);
 	if (cub->mlx_ptr)
 	{
 		mlx_destroy_display(cub->mlx_ptr);

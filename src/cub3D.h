@@ -173,8 +173,10 @@ void	update_keycodes_ew(int dir, t_cub *cub);
 
 //
 
-int		get_pix(t_im *img, double ratio, double *offset, double text_offset);
-void	img_pix_put(t_cub *cub, t_im *img, int x, int y, int color);
+int		get_pix(t_im *img, double *offset, double text_offset);
+void	img_pix_put(t_im *img, int x, int y, int color);
+int		draw_wall(t_cub *cub, int i, int start, int wall_height);
+void	draw_line(int i, t_cub *cub);
 
 // libft
 
