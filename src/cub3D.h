@@ -111,11 +111,6 @@ typedef struct s_cub
 # define WINDOW_WIDTH 1920
 # define WINDOW_LENGTH 1080
 
-double	ft_tan(int angle, t_cub *cub);
-double	ft_sin(int angle, t_cub *cub);
-double	ft_cos(int angle, t_cub *cub);
-void	init_trigonometry(t_cub	*cub);
-
 // arg_check.c
 int		arg_check(int ac, char **av, int *fd_add);
 int		open_file(char *str, int *fd_add);
@@ -131,6 +126,8 @@ void	destroy_cub_struct(t_cub *cub);
 
 int		parsing(int fd, t_cub *cub);
 int		get_texture(char *str, t_cub *cub);
+void	init_parsing_str(t_pars *pars);
+int		parsing_2(t_pars *pars, int fd, t_cub *cub);
 
 // parse_graphic_elems.c
 
@@ -145,6 +142,13 @@ int		parse_map(char *str, t_cub *cub);
 int		map_pos_is_valid(int i, int j, int *flag, t_cub *cub);
 void	set_map_size(t_cub *cub);
 
+int		parse_map2(int i, int j, int flag, t_cub *cub);
+
+//map_pos.c
+int		map_pos_pos(int i, int j, int *flag, char **map);
+int		map_pos_space(int i, int j, char **map);
+int		map_pos_zero(int i, int j, char **map);
+
 // images.c
 
 int		xpm_to_image(char *file, void *mlx_ptr, void **image_add, t_im *img);
@@ -153,13 +157,29 @@ int		xpm_to_image(char *file, void *mlx_ptr, void **image_add, t_im *img);
 
 void	cub3d(t_cub *cub);
 void	cub3d_render_pos(t_cub *cub, t_hit *hit);
+void	init_hit_struct(t_hit *hit);
+void	get_cur_angle_and_dir(t_cub *cub, int i);
+void	get_perpwalldist(t_cub *cub);
 
-// get_next_line_bonus.c
+// hit_points_calculations I & II
 
-char	*get_next_line(int fd);
-char	*get_next_line_2(int fd, char **tab, t_list *first, t_list *last);
-t_list	*ft_expand_list(t_list *first, t_list *last, char *str, int size);
-char	*ft_join_contents(t_list *first);
+void	get_next_hitpoint(t_cub *cub, t_hit *hit);
+void	get_horizontal_hit(t_cub *cub, t_hit *hit);
+void	get_vertical_hit(t_cub *cub, t_hit *hit);
+double	distance(double x1, double x2, double y1, double y2);
+void	select_shortest_hitpoint(t_hit *hit, t_cub *cub);
+bool	check_if_hit_v(t_hit *hit, t_cub *cub);
+bool	check_if_hit_h(t_hit *hit, t_cub *cub);
+void	get_initial_hhit(t_hit *hit, t_cub *cub);
+void	get_initial_vhit(t_hit *hit, t_cub *cub);
+void	update_data(t_hit *hit, t_cub *cub);
+
+//draw.c
+
+int		get_pix(t_im *img, double *offset, double text_offset);
+void	img_pix_put(t_im *img, int x, int y, int color);
+int		draw_wall(t_cub *cub, int i, int start, int wall_height);
+void	draw_line(int i, t_cub *cub);
 
 // ft_exit.c
 
@@ -170,16 +190,19 @@ int		ft_exit(t_cub *cub);
 int		handle_no_event(void *data);
 int		key_hook(int keycode, t_cub *cub);
 void	update_positions(int keycode, t_cub *cub, int n);
+void	check_location(t_cub *cub, double x, double y);
+int		norm(int theta);
+
 // update_initial_pos.c
 
 void	update_initial_pos(int i, int j, char dir, t_cub *cub);
 
-//
+// get_next_line_bonus.c
 
-int		get_pix(t_im *img, double *offset, double text_offset);
-void	img_pix_put(t_im *img, int x, int y, int color);
-int		draw_wall(t_cub *cub, int i, int start, int wall_height);
-void	draw_line(int i, t_cub *cub);
+char	*get_next_line(int fd);
+char	*get_next_line_2(int fd, char **tab, t_list *first, t_list *last);
+t_list	*ft_expand_list(t_list *first, t_list *last, char *str, int size);
+char	*ft_join_contents(t_list *first);
 
 // libft
 
@@ -203,29 +226,5 @@ size_t	ft_strlen(const char *s);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strndup(char *s1, int j);
 char	*ft_strstr(const char *haystack, const char *needle);
-
-// bordel
-
-void	draw_line(int i, t_cub *cub);
-void	get_perpwalldist(t_cub *cub);
-void	init_hit_struct(t_hit *hit);
-void	get_next_hitpoint(t_cub *cub, t_hit *hit);
-void	get_horizontal_hit(t_cub *cub, t_hit *hit);
-void	get_vertical_hit(t_cub *cub, t_hit *hit);
-void	get_cur_angle_and_dir(t_cub *cub, int i);
-double	distance(double x1, double x2, double y1, double y2);
-void	select_shortest_hitpoint(t_hit *hit, t_cub *cub);
-bool	check_if_hit_v(t_hit *hit, t_cub *cub);
-bool	check_if_hit_h(t_hit *hit, t_cub *cub);
-void	get_initial_hhit(t_hit *hit, t_cub *cub);
-void	get_initial_vhit(t_hit *hit, t_cub *cub);
-void	update_data(t_hit *hit, t_cub *cub);
-int		parse_map2(int i, int j, int flag, t_cub *cub);
-int		map_pos_pos(int i, int j, int *flag, char **map);
-int		map_pos_space(int i, int j, char **map);
-int		map_pos_zero(int i, int j, char **map);
-int		norm(int theta);
-void	init_parsing_str(t_pars *pars);
-int		parsing_2(t_pars *pars, int fd, t_cub *cub);
 
 #endif

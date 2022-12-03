@@ -53,7 +53,4 @@ void	set_map_size(t_cub *cub)
 
 /*
 1.uneven map size ==>limit the search to strlen of &map[i][j]
-2.segfault in wall collision
-3.slow
-
 */
