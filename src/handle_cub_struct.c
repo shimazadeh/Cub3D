@@ -20,25 +20,10 @@ void	init_cub_struct(t_cub *cub)
 	init_img_struct(cub->img_so);
 	init_img_struct(cub->img_ea);
 	init_img_struct(cub->img_we);
-	init_trigonometry(cub);
 	cub->right = false;
 	cub->left = false;
 	cub->up = false;
 	cub->down = false;
-}
-
-void	init_trigonometry(t_cub	*cub)
-{
-	int i;
-	
-	i = 0;
-	while (i < 360)
-	{
-		cub->tan[i] = tan(i * M_PI / 180);
-		cub->cos[i] = cos(i * M_PI / 180);
-		cub->sin[i] = sin(i * M_PI / 180);
-		i++;
-	}
 }
 
 void	init_cub_parameter(t_cub *cub)

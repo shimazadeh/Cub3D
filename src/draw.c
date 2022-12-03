@@ -61,32 +61,25 @@ int	draw_wall(t_cub *cub, int i, int start, int wall_height)
 	double	offset;
 	int		color;
 
-	color = 0;
 	offset = 0;
 	if (start < 0)
 	{
-		offset = (-start) * (64 /(double)wall_height);
-		j = 0;
+		offset = (-start) * (64 / (double)wall_height);
 		start = 0;
 	}
-	else
-		j = start;
-	while (j < start + wall_height && j < 1080)
+	j = start - 1;
+	while (++j < start + wall_height && j < 1080)
 	{
-		if (i >= 0 && i < cub->width && j >= 0 && j < cub->height)
-		{
-			if (cub->cur_text == 'n')
-				color = get_pix(cub->img_no, &offset, cub->text_offset);
-			else if (cub->cur_text == 'e')
-				color = get_pix(cub->img_ea, &offset, cub->text_offset);
-			else if (cub->cur_text == 's')
-				color = get_pix(cub->img_so, &offset, cub->text_offset);
-			else if (cub->cur_text == 'w')
-				color = get_pix(cub->img_we, &offset, cub->text_offset);
-			img_pix_put(cub->img, i, j, color);
-		}
+		if (cub->cur_text == 'n')
+			color = get_pix(cub->img_no, &offset, cub->text_offset);
+		else if (cub->cur_text == 'e')
+			color = get_pix(cub->img_ea, &offset, cub->text_offset);
+		else if (cub->cur_text == 's')
+			color = get_pix(cub->img_so, &offset, cub->text_offset);
+		else
+			color = get_pix(cub->img_we, &offset, cub->text_offset);
+		img_pix_put(cub->img, i, j, color);
 		offset += 64 / (double)wall_height;
-		j++;
 	}
 	return (j);
 }
@@ -95,7 +88,7 @@ int	get_pix(t_im *img, double *offset, double text_offset)
 {
 	char	*pixel;
 
-	pixel = img->addr + ((int)(*offset) * img->line_length + \
+	pixel = img->addr + (((int)(*offset)) * img->line_length + \
 	(int)text_offset * (img->bps / 8));
 	return ((int)(((int *)pixel)[0]));
 }

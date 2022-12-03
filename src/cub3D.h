@@ -105,15 +105,11 @@ typedef struct s_cub
 	bool			up;
 	bool			down;
 	t_hit			*hit_str;
-	double			tan[360];
-	double			cos[360];
-	double			sin[360];
 }				t_cub;
 
 # define BUFFER_SIZE 100
 # define WINDOW_WIDTH 1920
 # define WINDOW_LENGTH 1080
-
 
 double	ft_tan(int angle, t_cub *cub);
 double	ft_sin(int angle, t_cub *cub);

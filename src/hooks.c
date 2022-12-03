@@ -23,21 +23,26 @@ int	key_hook(int keycode, t_cub *cub)
 	if (keycode == XK_Escape)
 		ft_exit(cub);
 	else if (keycode == XK_w || keycode == XK_s \
-	|| keycode == XK_a || keycode == XK_d)
-		update_positions(keycode, cub, norm(cub->hookangle + 33));
-	else if (keycode == XK_Right)
+	|| keycode == XK_a || keycode == XK_d || \
+	keycode == XK_Right || keycode == XK_Left)
 	{
-		cub->hookangle -= 1;
-		if (cub->hookangle == -1)
-			cub->hookangle = 359;
+		if (keycode == XK_w || keycode == XK_s \
+		|| keycode == XK_a || keycode == XK_d)
+			update_positions(keycode, cub, norm(cub->hookangle + 33));
+		else if (keycode == XK_Right)
+		{
+			cub->hookangle -= 1;
+			if (cub->hookangle == -1)
+				cub->hookangle = 359;
+		}
+		else if (keycode == XK_Left)
+		{
+			cub->hookangle += 1;
+			if (cub->hookangle == 360)
+				cub->hookangle = 0;
+		}
+		cub3d_render_pos(cub, cub->hit_str);
 	}
-	else if (keycode == XK_Left)
-	{
-		cub->hookangle += 1;
-		if (cub->hookangle == 360)
-			cub->hookangle = 0;
-	}
-	cub3d_render_pos(cub, cub->hit_str);
 	return (1);
 }
 
@@ -55,42 +60,39 @@ void	check_location(t_cub *cub, double x, double y)
 	int		i;
 	int		j;
 
+	(void)j;
+	(void)i;
 	i = (int)floor(y);
 	j = (int)floor(x);
-	if (map[i][j] == '0')
+	if (i >= 0 && i < cub->height && j >= 0 && j < cub->width)
 	{
-		cub->hookx = x;
-		cub->hooky = y;
+		if (cub->map[i][j] == '0')
+		{
+			cub->hookx = x;
+			cub->hooky = y;
+		}
 	}
+	return ;
 }
 
 void	update_positions(int keycode, t_cub *cub, int n)
 {
-	double tmpX;
-	double tmpY;
+	double	tmpx;
+	double	tmpy;
+	int		angle;
 
+	tmpx = 0;
+	tmpy = 0;
+	angle = n;
 	if (keycode == XK_w)
-	{
-		tmpX = cub->hookx + 0.1 * (cos(n * M_PI / 180));
-		tmpY = cub->hooky - 0.1 * (sin(n * M_PI / 180));
-		check_location(cub, tmpX, tmpY);
-	}
-	else if (keycode == XK_s \
-		&& cub->map[(int)(cub->posy + 0.100001)][(int)(cub->posx)] == '0')
-	{
-		cub->hooky -= 0.1 * (sin(norm(n + 180) * M_PI / 180));
-		cub->hookx += 0.1 * (cos(norm(n + 180) * M_PI / 180));
-	}
-	else if (keycode == XK_d \
-		&& cub->map[(int)(cub->posy)][(int)(cub->posx + 0.100001)] == '0')
-	{
-		cub->hooky -= 0.1 * (sin(norm(n - 90) * M_PI / 180));
-		cub->hookx += 0.1 * (cos(norm(n - 90) * M_PI / 180));
-	}
-	else if (keycode == XK_a \
-		&& cub->map[(int)(cub->posy)][(int)(cub->posx - 0.100001)] == '0')
-	{
-		cub->hooky -= 0.1 * (sin(norm(n + 90) * M_PI / 180));
-		cub->hookx += 0.1 * (cos(norm(n + 90) * M_PI / 180));
-	}
+		angle = n;
+	else if (keycode == XK_s)
+		angle = n + 180;
+	else if (keycode == XK_d)
+		angle = n - 90;
+	else if (keycode == XK_a)
+		angle = n + 90;
+	tmpx = cub->hookx + 0.1 * (cos(angle * M_PI / 180));
+	tmpy = cub->hooky - 0.1 * (sin(angle * M_PI / 180));
+	check_location(cub, tmpx, tmpy);
 }
