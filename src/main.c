@@ -6,7 +6,7 @@
 /*   By: aguillar <aguillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 16:58:52 by aguillar          #+#    #+#             */
-/*   Updated: 2022/11/29 13:42:27 by aguillar         ###   ########.fr       */
+/*   Updated: 2022/12/03 17:56:56 by aguillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ void	set_map_size(t_cub *cub)
 }
 
 /*
-3. hooks are not right for front and back
-4. textures
-5. drawing the minimap
+1.uneven map size ==>limit the search to strlen of &map[i][j]
+2.segfault in wall collision
+3.slow
+
 */

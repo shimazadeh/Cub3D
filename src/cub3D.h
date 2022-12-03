@@ -6,7 +6,7 @@
 /*   By: aguillar <aguillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 16:18:15 by aguillar          #+#    #+#             */
-/*   Updated: 2022/11/29 16:29:24 by aguillar         ###   ########.fr       */
+/*   Updated: 2022/12/03 18:12:24 by aguillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,15 @@ typedef struct s_im
 	int		endian;
 }				t_im;
 
+typedef struct s_pars
+{
+	int		flag;
+	char	*str;
+	char	*tmp;
+	char	*map_str;
+	int		ret;
+}				t_pars;
+
 typedef struct s_cub
 {
 	int				maph;
@@ -96,15 +105,20 @@ typedef struct s_cub
 	bool			up;
 	bool			down;
 	t_hit			*hit_str;
-	int				xk_n;
-	int				xk_s;
-	int				xk_e;
-	int				xk_w;
+	double			tan[360];
+	double			cos[360];
+	double			sin[360];
 }				t_cub;
 
 # define BUFFER_SIZE 100
 # define WINDOW_WIDTH 1920
 # define WINDOW_LENGTH 1080
+
+
+double	ft_tan(int angle, t_cub *cub);
+double	ft_sin(int angle, t_cub *cub);
+double	ft_cos(int angle, t_cub *cub);
+void	init_trigonometry(t_cub	*cub);
 
 // arg_check.c
 int		arg_check(int ac, char **av, int *fd_add);
@@ -159,17 +173,10 @@ int		ft_exit(t_cub *cub);
 
 int		handle_no_event(void *data);
 int		key_hook(int keycode, t_cub *cub);
-void	update_positions(int keycode, t_cub *cub);
-
+void	update_positions(int keycode, t_cub *cub, int n);
 // update_initial_pos.c
 
 void	update_initial_pos(int i, int j, char dir, t_cub *cub);
-
-//
-
-void	update_keycodes(t_cub *cub);
-void	update_keycodes_ns(int dir, t_cub *cub);
-void	update_keycodes_ew(int dir, t_cub *cub);
 
 //
 
@@ -221,5 +228,8 @@ int		parse_map2(int i, int j, int flag, t_cub *cub);
 int		map_pos_pos(int i, int j, int *flag, char **map);
 int		map_pos_space(int i, int j, char **map);
 int		map_pos_zero(int i, int j, char **map);
+int		norm(int theta);
+void	init_parsing_str(t_pars *pars);
+int		parsing_2(t_pars *pars, int fd, t_cub *cub);
 
 #endif

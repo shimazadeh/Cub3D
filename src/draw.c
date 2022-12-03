@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shabibol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aguillar <aguillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 16:59:27 by shabibol          #+#    #+#             */
-/*   Updated: 2022/12/01 16:59:30 by shabibol         ###   ########.fr       */
+/*   Updated: 2022/12/03 18:16:40 by aguillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,15 @@ int	draw_wall(t_cub *cub, int i, int start, int wall_height)
 
 	color = 0;
 	offset = 0;
-	j = start;
-	while (j < start + wall_height)
+	if (start < 0)
+	{
+		offset = (-start) * (64 /(double)wall_height);
+		j = 0;
+		start = 0;
+	}
+	else
+		j = start;
+	while (j < start + wall_height && j < 1080)
 	{
 		if (i >= 0 && i < cub->width && j >= 0 && j < cub->height)
 		{

@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   update_initial_pos.c                               :+:      :+:    :+:   */
+/*   trigonometry.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aguillar <aguillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/07 15:16:16 by aguillar          #+#    #+#             */
-/*   Updated: 2022/12/03 17:14:36 by aguillar         ###   ########.fr       */
+/*   Created: 2022/12/03 18:04:03 by aguillar          #+#    #+#             */
+/*   Updated: 2022/12/03 18:13:09 by aguillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void	update_initial_pos(int i, int j, char dir, t_cub *cub)
+double	ft_tan(int angle, t_cub *cub)
 {
-	cub->posy = i + 0.5;
-	cub->posx = j + 0.5;
-	cub->hookx = cub->posx;
-	cub->hooky = cub->posy;
-	if (dir == 'N')
-		cub->base_angle = 90 - 33;
-	else if (dir == 'S')
-		cub->base_angle = 270 - 33;
-	else if (dir == 'E')
-		cub->base_angle = 360 - 33;
-	else if (dir == 'W')
-		cub->base_angle = 180 - 33;
-	cub->hookangle = cub->base_angle;
+	return (cub->tan[angle]);
+}
+
+double	ft_sin(int angle, t_cub *cub)
+{
+	return (cub->sin[angle]);
+}
+
+double	ft_cos(int angle, t_cub *cub)
+{
+	return (cub->cos[angle]);
 }

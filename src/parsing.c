@@ -6,55 +6,62 @@
 /*   By: aguillar <aguillar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/20 18:55:32 by aguillar          #+#    #+#             */
-/*   Updated: 2022/11/29 13:37:11 by aguillar         ###   ########.fr       */
+/*   Updated: 2022/12/03 17:30:48 by aguillar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
+void	init_parsing_str(t_pars *pars)
+{
+	pars->ret = 0;
+	pars->flag = 0;
+	pars->map_str = NULL;
+	pars->tmp = NULL;
+	pars->str = 0;
+}
+
 int	parsing(int fd, t_cub *cub)
 {
-	int		flag;
-	char	*str;
-	char	*tmp;
-	char	*map_str;
-	int		ret;
+	t_pars	pars[1];
 
-	ret = 0;
-	flag = 0;
-	map_str = NULL;
-	tmp = NULL;
-	str = get_next_line(fd);
-	while (str)
+	init_parsing_str(pars);
+	pars->str = get_next_line(fd);
+	while (pars->str)
 	{
-		if (!ret && str[0] != '\n' && flag < 6)
+		if (!pars->ret && pars->str[0] != '\n' && pars->flag < 6)
 		{
-			if (!parse_graphic_elems(str, cub))
-				ret = 1;
-			flag++;
+			if (!parse_graphic_elems(pars->str, cub))
+				pars->ret = 1;
+			pars->flag++;
 		}
-		else if (!ret)
+		else if (!pars->ret)
 		{
-			tmp = map_str;
-			map_str = ft_strjoin(tmp, str);
-			free(tmp);
+			pars->tmp = pars->map_str;
+			pars->map_str = ft_strjoin(pars->tmp, pars->str);
+			free(pars->tmp);
 		}
-		free(str);
-		str = get_next_line(fd);
+		free(pars->str);
+		pars->str = get_next_line(fd);
 	}
-	if (ret)
+	return (parsing_2(pars, fd, cub));
+}
+
+int	parsing_2(t_pars *pars, int fd, t_cub *cub)
+{
+	if (pars->ret)
 	{
 		close(fd);
-		return (ret);
+		return (pars->ret);
 	}
-	if (map_str)
-		flag++;
-	if (!parse_map(map_str, cub))
+	if (pars->map_str)
+		pars->flag++;
+	if (!parse_map(pars->map_str, cub))
 		return (0);
-	if (flag < 6)
+	if (pars->flag < 6)
 		return (close(fd), \
 			ft_putstr_fd("Error\nMissing texture element in file!\n", 2), 0);
-	else if (flag != 7)
+	else if (pars->flag != 7)
 		return (close(fd), \
 			ft_putstr_fd("Error\nMissing map element in file!\n", 2), 0);
 	return (1);
