@@ -57,13 +57,11 @@ int	norm(int theta)
 
 void	check_location(t_cub *cub, double x, double y)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
-	(void)j;
-	(void)i;
-	i = (int)floor(y);
-	j = (int)floor(x);
+	i = (int)(y + 0.000001);
+	j = (int)(x + 0.000001);
 	if (i >= 0 && i < cub->height && j >= 0 && j < cub->width)
 	{
 		if (cub->map[i][j] == '0')
@@ -72,7 +70,6 @@ void	check_location(t_cub *cub, double x, double y)
 			cub->hooky = y;
 		}
 	}
-	return ;
 }
 
 void	update_positions(int keycode, t_cub *cub, int n)

@@ -75,7 +75,7 @@ bool	check_if_hit_h(t_hit *hit, t_cub *cub)
 		i = hit->h_hity;
 		text = 's';
 	}
-	if (!(i >= 0 && i <= cub->maph && j >= 0 && j <= cub->mapw))
+	if (i < 0 || i >= cub->maph || j < 0 || j >= cub->mapw)
 		return (false);
 	if (cub->map[i][j] == '1')
 	{
@@ -104,7 +104,7 @@ bool	check_if_hit_v(t_hit *hit, t_cub *cub)
 		j = hit->v_hitx;
 		text = 'e';
 	}
-	if (!(i >= 0 && i < cub->maph && j >= 0 && j < cub->mapw))
+	if (i < 0 || i >= cub->maph || j < 0 || j >= cub->mapw)
 		return (false);
 	if (cub->map[i][j] == '1')
 	{

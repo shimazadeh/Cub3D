@@ -51,6 +51,8 @@ void	init_cub_parameter(t_cub *cub)
 	cub->cur_text = 0;
 	cub->prev_text = 0;
 	cub->text_offset = 0;
+	cub->mapw = 0;
+	cub->maph = 0;
 }
 
 void	init_img_struct(t_im *img)

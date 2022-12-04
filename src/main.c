@@ -28,29 +28,7 @@ int	main(int ac, char **av)
 	else if (!parsing(cub->fd, cub))
 		cub->ret = 1;
 	else
-	{
-		set_map_size(cub);
 		cub3d(cub);
-	}
 	ft_exit(cub);
 	return (0);
 }
-
-void	set_map_size(t_cub *cub)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	while (cub->map[i])
-		i++;
-	while (cub->map[0][j])
-		j++;
-	cub->maph = i;
-	cub->mapw = j;
-}
-
-/*
-1.uneven map size ==>limit the search to strlen of &map[i][j]
-*/

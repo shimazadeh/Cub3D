@@ -140,14 +140,18 @@ int		get_color(char *str, int *i, int *color);
 
 int		parse_map(char *str, t_cub *cub);
 int		map_pos_is_valid(int i, int j, int *flag, t_cub *cub);
-void	set_map_size(t_cub *cub);
-
 int		parse_map2(int i, int j, int flag, t_cub *cub);
 
 //map_pos.c
+
 int		map_pos_pos(int i, int j, int *flag, char **map);
 int		map_pos_space(int i, int j, char **map);
 int		map_pos_zero(int i, int j, char **map);
+
+// convert_map.c
+
+void	get_col_row(char **map, int *col, int *row);
+int		convert_map(char **map, int i, int j, t_cub *cub);
 
 // images.c
 

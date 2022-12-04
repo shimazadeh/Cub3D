@@ -35,6 +35,7 @@ int	parse_map(char *str, t_cub *cub)
 	free(str);
 	if (!parse_map2(i, j, flag, cub))
 		return (0);
+	convert_map(cub->map, -1, 0, cub);
 	return (1);
 }
 
